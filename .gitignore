@@ -1,0 +1,6 @@
+# ignoring extra files I have in xmapp folder
+bitnami*
+dashboard*
+inf_cake*
+xampp*
+skilltown*
