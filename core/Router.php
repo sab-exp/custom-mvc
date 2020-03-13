@@ -5,20 +5,15 @@
  *
  * PHP version 5.4
  */
-class Router
-{
+class Router {
 
-    /**
-     * Associative array of routes (the routing table)
-     * @var array
+    /** Associative array of routes (the routing table)
+     *  @var array
      */
     protected $routes = [];
 
-    /**
-     * Parameters from the matched route
-     * @var array
-    * @var array 
-     * @var array
+    /** Parameters from the matched route
+     *  @var array
      */
     protected $params = [];
 
@@ -30,8 +25,7 @@ class Router
      *
      * @return void
      */
-    public function add($route, $params = [])
-    {
+    public function add($route, $params = []) {
         // Convert the route to a regular expression: escape forward slashes
         $route = preg_replace('/\//', '\\/', $route);
 
@@ -52,8 +46,7 @@ class Router
      *
      * @return array
      */
-    public function getRoutes()
-    {
+    public function getRoutes() {
         return $this->routes;
     }
 
@@ -65,8 +58,7 @@ class Router
      *
      * @return boolean  true if a match found, false otherwise
      */
-    public function match($url)
-    {
+    public function match($url) {
         // Match to the fixed URL format /controller/action
         //$reg_exp = "/^(?P<controller>[a-z-]+)\/(?P<action>[a-z-]+)$/";
 
@@ -87,11 +79,55 @@ class Router
         return false;
     }
 
+    // dispatching the route 
+    public function dispatch ($url) {
+        if ($this->match($url)) {
+            $controller = $this->params['controller'];
+            $controller = $this->convertToSudlyCaps($controller);
+
+            if (class_exists($controller)) {
+
+                $controller_object = new $controller();
+
+                $action = $this->params['action'];
+                $action = $this->convertToCamelCase['action'];
+
+                if (is_callable([$controller_object, $action])) {
+                    $controller_object->$action();
+                }
+                else {
+                    echo "Method $action (in controller $controller) not found"
+                }
+            }
+            else {
+                echo "Controller class $controller not found"
+            }
+        }
+        else {
+            echo "No route matched"
+        }
+    }
+
+    /* 
+    convert strings with hyphens to StudlyCaps.
+    e.g. post-authors => PostAuthors 
+    */
+    public function convertToStudlyCaps($string) {
+        return str_replace('', ucwords(str_replace('-', ' ', $string)));
+    }
+
+    /* 
+    convert strings with hyphens to to camelCase.
+    e.g. add-new => addNew 
+    */
+    public function convertToCamelCase($string) {
+        return lcfirst($this->convertToStudlyCaps($string));
+    }
+
     /* Get the currently Matched parameters
        @return array
     */
-    public function getParams()
-    {
+    public function getParams() {
         return $this->params;
     }
 }
