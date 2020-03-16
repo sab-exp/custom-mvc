@@ -1,6 +1,7 @@
 # ignoring extra files I have in xmapp folder
 dashboard*
 inf_cake*
+vendor*
 xampp*
 skilltown*
 bitnami*

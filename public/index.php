@@ -2,6 +2,11 @@
 
 // PHP version 5.4
 
+
+// Twig
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+
 // Autoloder
 spl_autoload_register(function ($class) {
     $root = dirname(__DIR__); // get the parent directory
