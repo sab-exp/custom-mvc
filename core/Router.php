@@ -1,18 +1,13 @@
 <?php
 
-/**
- * Router
- *
- * PHP version 5.4
- */
 class Router {
 
-    /** Associative array of routes (the routing table)
+    /* Associative array of routes (the routing table)
      *  @var array
      */
     protected $routes = [];
 
-    /** Parameters from the matched route
+    /* Parameters from the matched route
      *  @var array
      */
     protected $params = [];
@@ -59,8 +54,6 @@ class Router {
      * @return boolean  true if a match found, false otherwise
      */
     public function match($url) {
-        // Match to the fixed URL format /controller/action
-        //$reg_exp = "/^(?P<controller>[a-z-]+)\/(?P<action>[a-z-]+)$/";
 
         foreach ($this->routes as $route => $params) {
             if (preg_match($route, $url, $matches)) {
@@ -79,7 +72,7 @@ class Router {
         return false;
     }
 
-    // dispatching the route 
+    // dispatching the route from the routing table
     public function dispatch ($url) {
         if ($this->match($url)) {
             $controller = $this->params['controller'];
@@ -96,15 +89,15 @@ class Router {
                     $controller_object->$action();
                 }
                 else {
-                    echo "Method $action (in controller $controller) not found"
+                    echo "Method $action (in controller $controller) not found";
                 }
             }
             else {
-                echo "Controller class $controller not found"
+                echo "Controller class $controller not found";
             }
         }
         else {
-            echo "No route matched"
+            echo "No route matched";
         }
     }
 
