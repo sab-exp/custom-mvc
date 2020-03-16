@@ -1,5 +1,7 @@
 <?php
 
+namespace Core;
+
 class Router {
 
     /* Associative array of routes (the routing table)
@@ -79,6 +81,8 @@ class Router {
         if ($this->match($url)) {
 
             $controller = $this->convertToStudlyCaps( $this->params['controller'] );
+            $controller = "App\Controllers\\$controller";
+
 
             if (class_exists($controller)) {
 

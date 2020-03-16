@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Controllers;
+
 class Posts {
 
     // Show the index page
