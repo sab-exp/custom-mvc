@@ -21,6 +21,7 @@ class Router {
      * @return void
      */
     public function add($route, $params = []) {
+
         // Convert the route to a regular expression: escape forward slashes
         $route = preg_replace('/\//', '\\/', $route);
 
@@ -52,7 +53,7 @@ class Router {
      * @param string $url The route URL
      *
      * @return boolean  true if a match found, false otherwise
-     */
+    **/
     public function match($url) {
 
         foreach ($this->routes as $route => $params) {
@@ -72,18 +73,18 @@ class Router {
         return false;
     }
 
-    // dispatching the route from the routing table
+    // Dispatching the route from the routing table
     public function dispatch ($url) {
+
         if ($this->match($url)) {
-            $controller = $this->params['controller'];
-            $controller = $this->convertToSudlyCaps($controller);
+
+            $controller = $this->convertToStudlyCaps( $this->params['controller'] );
 
             if (class_exists($controller)) {
 
                 $controller_object = new $controller();
 
-                $action = $this->params['action'];
-                $action = $this->convertToCamelCase['action'];
+                $action = $this->convertToCamelCase( $this->params['action'] );
 
                 if (is_callable([$controller_object, $action])) {
                     $controller_object->$action();
@@ -106,7 +107,7 @@ class Router {
     e.g. post-authors => PostAuthors 
     */
     public function convertToStudlyCaps($string) {
-        return str_replace('', ucwords(str_replace('-', ' ', $string)));
+        return str_replace(' ', '', ucwords(str_replace('-', ' ', $string)));
     }
 
     /* 
