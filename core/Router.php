@@ -88,7 +88,7 @@ class Router {
 
             if (class_exists($controller)) {
 
-                $controller_object = new $controller();
+                $controller_object = new $controller($this->params);
 
                 $action = $this->convertToCamelCase( $this->params['action'] );
 
